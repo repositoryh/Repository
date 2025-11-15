@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Ali Institute — Data Viewer</title>
+  <link rel="stylesheet" href="/style.css"/>
+  <style>table{width:100%;border-collapse:collapse}td,th{padding:8px;border:1px solid rgba(0,255,255,0.04);color:var(--neon)}</style>
+</head>
+<body>
+  <main class="card">
+    <h1 class="neon">Saved Registrations</h1>
+    <div id="list">Loading…</div>
+    <p class="note"><a href="/" style="color:var(--neon)">← Back</a></p>
+  </main>
+  <script>
+    async function fetchList(){
+      const res = await fetch('/api/list');
+      const data = await res.json();
+      const out = document.getElementById('list');
+      if(!data.ok) return out.innerText = 'Failed to fetch';
+      if(!data.files || data.files.length===0) return out.innerText = 'No entries yet';
+      const table = document.createElement('table');
+      const thead = document.createElement('thead');
+      thead.innerHTML = '<tr><th>Name</th><th>Phone</th><th>Time</th><th>View</th></tr>';
+      table.appendChild(thead);
+      const tbody = document.createElement('tbody');
+      for(const f of data.files){
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${f.name || ''}</td><td>${f.phone || ''}</td><td>${f.time || ''}</td><td><button data-file="${f.path}">Open</button></td>`;
+        tbody.appendChild(tr);
+      }
+      table.appendChild(tbody);
+      out.innerHTML = '';
+      out.appendChild(table);
+      out.querySelectorAll('button[data-file]').forEach(b=>{
+        b.addEventListener('click', async ()=> {
+          const p = b.getAttribute('data-file');
+          const r = await fetch('/api/get?path=' + encodeURIComponent(p));
+          const j = await r.json();
+          alert(JSON.stringify(j, null, 2));
+        });
+      });
+    }
+    fetchList();
+  </script>
+</body>
+</html>

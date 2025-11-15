@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ali Institute Registration</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="card">
+    <h1 class="neon">Ali Institute Registration</h1>
+    <form id="regForm">
+      <label>Name<input name="name" required /></label>
+      <label>Number Of Children
+        <select name="childCount" id="childCount"></select>
+      </label>
+      <div id="childrenArea"></div>
+      <label>Address<input name="address" /></label>
+      <label>Phone number<input name="phone" required /></label>
+      <label>Interest
+        <select name="interest"><option>yes</option><option>no</option></select>
+      </label>
+      <label>Surveyor name<input name="surveyor" /></label>
+      <div class="row">
+        <button type="submit" class="btn">Submit</button>
+        <a class="btn ghost" href="/viewer.html" style="text-decoration:none;display:inline-block;text-align:center;">View Data</a>
+      </div>
+    </form>
+    <p class="note" id="status"></p>
+  </main>
+  <script src="/script.js"></script>
+</body>
+</html>
